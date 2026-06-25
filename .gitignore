@@ -1,7 +1,5 @@
 ### AL ###
 #Template for AL projects for Dynamics 365 Business Central
-#launch.json folder
-.vscode/
 #Cache folder
 .alcache/
 #Symbols folder
@@ -21,3 +19,24 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+
+### Node.js & Dependencies ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+### VS Code & General Caches ###
+.vscode/.react/
+.vscode/chrome-debug-profile/
+.vscode/extensions.json
+*.code-workspace
+.history/
+.eslintcache
+.prettiercache
+
+### OS Specific Caches ###
+Thumbs.db
+.DS_Store
