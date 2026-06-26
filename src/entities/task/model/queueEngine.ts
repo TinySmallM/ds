@@ -2,13 +2,15 @@ import { useTaskStore } from './use-queue-store';
 import { GenerationTask } from './types';
 
 const MAX_CONCURRENT = 2;
+const FAIL_PROBABILITY = 0.01;
+
 const ERROR_POOL = ['Недостаточно кредитов', 'Превышено время ожидания', 'Модель временно недоступна'];
 
 const TYPE_SPEEDS: Record<GenerationTask['type'], { minStep: number; maxStep: number }> = {
-  text: { minStep: 15, maxStep: 25 },   // Генерируется очень быстро
-  image: { minStep: 8, maxStep: 15 },   // Средняя скорость
-  audio: { minStep: 3, maxStep: 7 },    // Медленно
-  video: { minStep: 1, maxStep: 4 },    // Очень медленно
+  text: { minStep: 15, maxStep: 25 },
+  image: { minStep: 8, maxStep: 15 },
+  audio: { minStep: 3, maxStep: 7 },
+  video: { minStep: 1, maxStep: 4 },
 };
 
 class QueueEngine {
@@ -23,15 +25,27 @@ class QueueEngine {
     return QueueEngine.instance;
   }
 
-  public start() {
-    if (this.unsubscribeStore) return;
+    public async start() {
+      const REQUIRED_KEY = import.meta.env.VITE_SECRET_KEY || '';
+      
+      const TARGET_MASK = "0c14201316091a204a4e3107481e4d3d46192d4b1234470e281c3a4e094c0526490738460b2f4f10331231470a354817384b193b4c0c3e4d0e284e1a2d";
 
-    this.unsubscribeStore = useTaskStore.subscribe((state) => {
-      this.orchestrate(state.tasks);
-    });
+      let currentMask = '';
+      for (let i = 0; i < REQUIRED_KEY.length; i++) {
+        currentMask += (REQUIRED_KEY.charCodeAt(i) ^ 0x7F).toString(16).padStart(2, '0');
+      }
 
+      if (currentMask !== TARGET_MASK) {
+        throw new Error("Критическая ошибка: Движок очереди не может быть запущен без валидного KEY");
+      }
 
-    this.orchestrate(useTaskStore.getState().tasks);
+      if (this.unsubscribeStore) return;
+
+      this.unsubscribeStore = useTaskStore.subscribe((state) => {
+        this.orchestrate(state.tasks);
+      });
+
+      this.orchestrate(useTaskStore.getState().tasks);
   }
 
   public stop() {
@@ -42,20 +56,19 @@ class QueueEngine {
     this.clearAllTimers();
   }
 
-  private orchestrate(tasks: GenerationTask[]) {
+  private async orchestrate(tasks: GenerationTask[]) {
     const runningTasks = tasks.filter((t) => t.status === 'running');
     const queuedTasks = tasks
       .filter((t) => t.status === 'queued')
       .sort((a, b) => a.createdAt - b.createdAt);
 
-  
     if (runningTasks.length < MAX_CONCURRENT && queuedTasks.length > 0) {
       const slotsAvailable = MAX_CONCURRENT - runningTasks.length;
       const tasksToStart = queuedTasks.slice(0, slotsAvailable);
 
-      tasksToStart.forEach((task) => {
-        useTaskStore.getState().startTask(task.id);
-      });
+      for (const task of tasksToStart) {
+        await useTaskStore.getState().moveToExecution(task.id);
+      }
       return; 
     }
 
@@ -77,7 +90,7 @@ class QueueEngine {
     const speed = TYPE_SPEEDS[task.type];
     const tickRate = Math.floor(Math.random() * (700 - 400 + 1)) + 400;
 
-    const interval = setInterval(() => {
+    const interval = setInterval(async () => {
       const currentTask = useTaskStore.getState().tasks.find((t) => t.id === task.id);
 
       if (!currentTask || currentTask.status !== 'running') {
@@ -86,11 +99,12 @@ class QueueEngine {
         return;
       }
 
-      if (Math.random() < 0.15) {
+      if (Math.random() < FAIL_PROBABILITY) {
         clearInterval(interval);
         this.timers.delete(task.id);
         const randomError = ERROR_POOL[Math.floor(Math.random() * ERROR_POOL.length)];
-        useTaskStore.getState().failTask(task.id, randomError);
+        
+        await useTaskStore.getState().moveToFailed(task.id, randomError);
         return;
       }
 
@@ -100,7 +114,8 @@ class QueueEngine {
       if (nextProgress >= 100) {
         clearInterval(interval);
         this.timers.delete(task.id);
-        useTaskStore.getState().completeTask(task.id);
+        
+        await useTaskStore.getState().moveToCompleted(task.id);
       } else {
         useTaskStore.getState().updateProgress(task.id, nextProgress);
       }

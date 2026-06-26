@@ -71,7 +71,7 @@ export function DesignCreativitySection() {
         </div>
       </motion.div>
 
-      <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-2 mb-8">
+      {/* <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-2 mb-8">
         {models.map((m, i) => (
           <button
             key={m.id}
@@ -86,7 +86,7 @@ export function DesignCreativitySection() {
             {m.name}
           </button>
         ))}
-      </motion.div>
+      </motion.div> */}
 
       <motion.div
         variants={fadeUp}

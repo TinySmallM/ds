@@ -81,6 +81,9 @@
   /* Legacy tokens — repainted to warm beige */
   --bg-primary: #f6f3f0;
   --bg-secondary: #f0ebe6;
+  --bg-status-queue: #ffffff;
+  --bg-status-userFailed: #ffffff;
+  --bg-status-running: #eae4de;
   --bg-card: #f0ebe6;
   --bg-card-hover: #eae4de;
   --bg-input: #f6f3f0;
@@ -88,6 +91,7 @@
   --bg-pill-hover: rgba(232, 84, 32, 0.08);
   --bg-pill-status-queued: var(--c-fg-mute); 
   --bg-pill-status-progress: var(--c-accent);
+  --bg-pill-status-progress-defaut: #C8BEB6;
   --bg-pill-status-done: #34D399;
   --bg-pill-status-failed: #FF6B6B;
   --bg-sidebar: #f0ebe6;
@@ -139,7 +143,7 @@
   --c-fg-dim: #4a3f37;
   --c-fg-mute: #7a6f66;
   --c-fg-low: #a89d92;
-  --c-accent: #E85420;
+  --c-accent: #E85420; 
   --c-accent-2: #ff7a3d;
   --c-accent-soft: #fde3d3;
   --c-accent-glow: rgba(232,84,32,0.25);
@@ -185,7 +189,11 @@
   /* Legacy tokens — repainted to warm coal */
   --bg-primary: #0e0b0a;
   --bg-secondary: #141110;
+  --bg-status-queue: #1A1514;
+  --bg-status-userFailed: #1A1514;
+  --bg-status-running: #3a1a0a;
   --bg-card: #141110;
+  --bg-pill-status-progress-defaut: #221C19;
   --bg-card-hover: rgba(232, 84, 32, 0.04);
   --bg-input: #141110;
   --bg-pill: rgba(255, 122, 61, 0.06);

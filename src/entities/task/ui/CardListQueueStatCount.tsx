@@ -20,7 +20,8 @@ const CardListQueueStatCount = () => {
       queued: 0, 
       running: 0, 
       completed: 0, 
-      failed: 0 
+      failed: 0,
+      userFailed: 0,
     };
     
     return tasks.reduce((acc, task) => {
@@ -45,7 +46,7 @@ const CardListQueueStatCount = () => {
   }, [count]);
 
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap items-stretch gap-3 mt-6">
+    <>
       {cardListArray.map((numberItem) => {
         const itemData = renderCountQueue(numberItem);
 
@@ -56,7 +57,7 @@ const CardListQueueStatCount = () => {
           </Badge>
         );
       })}
-    </div>
+    </>
   );
 };
 

@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function createArray(length = 4, fillValue = (index: number) => index + 1) {
   return Array.from({ length }, (_, index) => fillValue(index));
 }
+
+export const isEmptyArray = (arr: unknown): boolean => {
+  return Array.isArray(arr) && arr.length === 0;
+};

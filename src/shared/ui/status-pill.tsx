@@ -11,6 +11,7 @@ const statusCircleVariants = cva(
         running: "bg-[var(--bg-pill-status-progress)]", 
         completed: "bg-[var(--bg-pill-status-done)]",
         failed: "bg-[var(--bg-pill-status-failed)]",
+        userFailed: ""
       },
     },
     defaultVariants: {
@@ -28,7 +29,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export type StatusPillProps = React.HTMLAttributes<HTMLDivElement> & 
   VariantProps<typeof statusCircleVariants> & {
-    status: 'queued' | 'running' | 'completed' | 'failed';
+    status: 'queued' | 'running' | 'completed' | 'failed' | 'userFailed';
     count?: number;
     children?: React.ReactNode;
   };
