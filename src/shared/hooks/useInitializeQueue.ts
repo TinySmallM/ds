@@ -1,5 +1,5 @@
+import { queueEngine } from '@/features/manage-task-queue/model/queueEngine';
 import { useEffect } from 'react';
-import { queueEngine } from './queueEngine';
 
 export const useInitializeQueue = () => {
   useEffect(() => {

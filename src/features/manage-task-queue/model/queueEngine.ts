@@ -1,5 +1,5 @@
+import { GenerationTask } from '@/entities/task/model/types';
 import { useTaskStore } from './use-queue-store';
-import { GenerationTask } from './types';
 
 const MAX_CONCURRENT = 2;
 const FAIL_PROBABILITY = 0.01;

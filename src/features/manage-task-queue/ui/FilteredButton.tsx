@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/shared/lib/utils";
-import { useTaskStore } from "@/entities/task/model/use-queue-store";
+import { useTaskStore } from "@/features/manage-task-queue/model/use-queue-store";
 import { useAsyncAction } from "@/shared/hooks/use-async-action";
 import { FilteredTasksType } from "@/entities/task/model/types";
 

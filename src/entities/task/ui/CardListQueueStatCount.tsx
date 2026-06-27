@@ -1,4 +1,4 @@
-import { useTaskStore } from "@/entities/task/model/use-queue-store";
+import { useTaskStore } from "@/features/manage-task-queue/model/use-queue-store";
 import { createArray } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { StatusPill } from "@/shared/ui/status-pill";

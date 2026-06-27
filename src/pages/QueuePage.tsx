@@ -1,8 +1,8 @@
-import { useInitializeQueue } from "@/entities/task/model/useInitializeQueue";
+import { useInitializeQueue } from "@/shared/hooks/useInitializeQueue";
 import CardListQueueStatCount from "@/entities/task/ui/CardListQueueStatCount";
 import ClearButton from "@/features/manage-task-queue/ui/ClearButton";
 import FilteredButton from "@/features/manage-task-queue/ui/FilteredButton";
-import TaskList from "@/features/manage-task-queue/ui/TaskList";
+import { GenerationQueue } from "@/widgets/task-list";
 import { motion } from 'framer-motion';
 
 const QueuePage = () => {
@@ -29,7 +29,7 @@ const QueuePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       >
-        <TaskList />
+        <GenerationQueue />
       </motion.div>
     </div>
   );

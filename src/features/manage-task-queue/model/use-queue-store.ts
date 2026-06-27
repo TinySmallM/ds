@@ -1,5 +1,6 @@
+import { FilteredTasksType, GenerationTask, TaskType } from '@/entities/task/model/types';
 import { create } from 'zustand';
-import { FilteredTasksType, GenerationTask, TaskType } from './types';
+
 
 interface TaskState {
   tasks: GenerationTask[];

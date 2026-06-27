@@ -1,4 +1,4 @@
-import { useTaskStore } from "@/entities/task/model/use-queue-store";
+import { useTaskStore } from "@/features/manage-task-queue/model/use-queue-store";
 import { useAsyncAction } from "@/shared/hooks/use-async-action";
 import { Button } from "@/shared/ui/button";
 
