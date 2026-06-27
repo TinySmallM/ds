@@ -6,6 +6,7 @@ import { CommandPaletteProvider } from "@/features/command-palette";
 import { useAuth } from "@/features/auth";
 import { useTheme } from "@/features/theme-switcher";
 import { cn } from "@/shared/lib/utils";
+import { QueuePanel } from "./QueuePanel";
 
 const sidebarPages = ["/text", "/design", "/video", "/audio", "/agents", "/toolkit", "/history", "/pricing", "/create"];
 const workspacePages = ["/text", "/design", "/video", "/audio", "/create"];
@@ -28,6 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <CommandPaletteProvider>
+      <QueuePanel />
       <div className="min-h-screen bg-background">
         <Header
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}

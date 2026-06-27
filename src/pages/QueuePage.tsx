@@ -1,4 +1,3 @@
-import { useInitializeQueue } from "@/shared/hooks/useInitializeQueue";
 import CardListQueueStatCount from "@/entities/task/ui/CardListQueueStatCount";
 import ClearButton from "@/features/manage-task-queue/ui/ClearButton";
 import FilteredButton from "@/features/manage-task-queue/ui/FilteredButton";
@@ -6,8 +5,6 @@ import { GenerationQueue } from "@/widgets/task-list";
 import { motion } from 'framer-motion';
 
 const QueuePage = () => {
-	useInitializeQueue();
-
   return (
     <div className="max-w-280 mx-auto px-4 py-10">
       <div className="flex items-center">

@@ -1,18 +1,14 @@
-import { ReactNode } from 'react';
 import { Badge } from "@/shared/ui/badge";
-import { Button } from "@/shared/ui/button"; 
 import { StatusBadge } from "@/shared/ui/status-badge";
 import { cn } from "@/shared/lib/utils";
-import { Ellipsis } from 'lucide-react';
-import { GenerationTask, TaskStatus } from '../model/types';
+import { GenerationTask } from '../model/types';
 import { useProgressAnimation } from '@/shared/hooks/use-progress-animation';
 
 interface CardFragmentProps {
   item: GenerationTask;
-  renderStatusActions: (id: string, status: TaskStatus) => ReactNode;
 }
 
-export const CardFragment = ({ item, renderStatusActions }: CardFragmentProps) => {
+export const MiniCardFragment = ({ item }: CardFragmentProps) => {
   const { fillRef, textRef } = useProgressAnimation(item.progress);
 
   return (
@@ -20,13 +16,11 @@ export const CardFragment = ({ item, renderStatusActions }: CardFragmentProps) =
       <div className="flex flex-col md:flex-row gap-4 w-full items-start md:items-center relative z-10">
         
         <div className="flex gap-4 w-full md:grow">
-          <div className="w-14 h-14 rounded-[12px] bg-[linear-gradient(135deg,#3b1a0a_0%,#1a1614_100%)] shrink-0"></div>
-          <div className="flex flex-col gap-2">
-            <h3 className="text-[15px]">{item.prompt}</h3>
-            <Badge className="border-transparent self-start gap-1.5" variant="secondary">
-              <span className="w-1.5 h-1.5 rounded-full bg-(--bg-pill-status-progress) shrink-0" />
-              <span>{item.version}</span>
-            </Badge>
+          <div className="w-7 h-7 rounded-[12px] bg-[linear-gradient(135deg,#3b1a0a_0%,#1a1614_100%)] shrink-0"></div>
+          <div className="flex flex-col min-w-0">
+            <h3 className="text-[12px] line-clamp-2 wrap-break-word text-left">
+              {item.prompt}
+            </h3>
           </div>
         </div>
 
@@ -35,15 +29,7 @@ export const CardFragment = ({ item, renderStatusActions }: CardFragmentProps) =
             {item.status === 'running' && (
               <span ref={textRef} className="text-[#ff7a3d] text-[13px] min-w-8.75 text-right" />
             )}
-            <StatusBadge variant={item.status} className="whitespace-nowrap" />
-          </div>
-
-          <div className='flex gap-1.5'>
-            {renderStatusActions(item.id, item.status)}
-            
-            <Button className="rounded-sm px-3 cursor-pointer h-9 w-9 p-0 flex items-center justify-center text-muted-foreground" variant='outline'>
-              <Ellipsis />
-            </Button>
+            {item.status === 'queued' && <StatusBadge variant={item.status} className="whitespace-nowrap" />}
           </div>
         </div>
 
@@ -51,7 +37,7 @@ export const CardFragment = ({ item, renderStatusActions }: CardFragmentProps) =
 
       <div 
         className={cn(
-          "mt-2 w-full md:w-[85%] h-1 rounded-full overflow-hidden md:mx-auto relative z-10 transition-colors duration-200",
+          "mt-2 w-full md:w-[65%] h-1 rounded-full overflow-hidden md:mx-auto relative z-10 transition-colors duration-200",
           item.status === 'running' ? "bg-(--bg-pill-status-progress-defaut)" : "bg-transparent"
         )}
       >
@@ -68,4 +54,4 @@ export const CardFragment = ({ item, renderStatusActions }: CardFragmentProps) =
   );
 };
 
-export default CardFragment;
+export default MiniCardFragment;

@@ -19,6 +19,7 @@ import AudioGenerationPage from "@/pages/AudioGenerationPage";
 import NanoBananaPage from "@/pages/NanoBananaPage";
 import ToolPage from "@/pages/ToolPage";
 import NotFound from "@/pages/NotFound";
+import { useInitializeQueue } from "@/shared/hooks/useInitializeQueue";
 
 const routes: Record<string, React.ComponentType> = {
   "/": Index,
@@ -42,6 +43,8 @@ const routes: Record<string, React.ComponentType> = {
 };
 
 export function AppRoutes() {
+  useInitializeQueue();
+  
   const { pathname } = useLocation();
   const Page = routes[pathname] ?? (pathname.startsWith("/tools/") ? ToolPage : NotFound);
   return <Page />;
